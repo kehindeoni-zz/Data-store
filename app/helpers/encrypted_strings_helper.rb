@@ -1,0 +1,2 @@
+module EncryptedStringsHelper
+end

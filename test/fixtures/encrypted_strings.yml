@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  encrypted_value: MyString
+  encrypted_value_iv: MyString
+  encrypted_value_salt: MyString
+  data_encrypting_key_id: 
+  token: MyString
+
+two:
+  encrypted_value: MyString
+  encrypted_value_iv: MyString
+  encrypted_value_salt: MyString
+  data_encrypting_key_id: 
+  token: MyString
