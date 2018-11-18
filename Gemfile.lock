@@ -52,6 +52,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.2)
+    database_cleaner (1.7.0)
     debug_inspector (0.0.3)
     dotenv (2.2.1)
     dotenv-rails (2.2.1)
@@ -163,6 +164,7 @@ DEPENDENCIES
   attr_encrypted (~> 3.0.0)
   byebug
   coffee-rails (~> 4.1.0)
+  database_cleaner (~> 1.7.0)
   dotenv-rails
   jbuilder (~> 2.0)
   jquery-rails
