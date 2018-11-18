@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class EncryptedStringTest < ActiveSupport::TestCase
-
   test 'return encrypted key' do
     key = DataEncryptingKey.generate!(primary: true)
     encrypted_string = EncryptedString.new(value: 'string')

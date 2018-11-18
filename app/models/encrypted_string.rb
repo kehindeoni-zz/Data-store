@@ -16,12 +16,9 @@ class EncryptedString < ActiveRecord::Base
   end
 
   def rotate_key(old_value)
-    p old_value
-    p self.value
     self.value = old_value
     self.encrypted_value = nil
     self.data_encrypting_key = DataEncryptingKey.primary
-    p self
   end
 
   private
