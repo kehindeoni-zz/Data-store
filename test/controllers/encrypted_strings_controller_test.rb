@@ -17,7 +17,7 @@ class EncryptedStringsControllerTest < ActionController::TestCase
     assert json["token"]
   end
 
-  test "POST #create returns invalud when value does not exist" do
+  test "POST #create returns invalid when value does not exist" do
     assert_no_difference "EncryptedString.count" do
       post :create, encrypted_string: {value: nil}
     end
