@@ -1,4 +1,5 @@
 class EncryptedStringsController < ApplicationController
+  require "sidekiq/api"
 
   before_action :load_encrypted_string, only: [:show, :destroy]
 
@@ -21,6 +22,20 @@ class EncryptedStringsController < ApplicationController
     head :ok
   end
 
+  def rotate
+    if still_processing?
+      render json: { message: @status_message }
+    else
+      RotateKeyWorker.perform_in(5.seconds)
+      render json: { message: 'Request received and processsing' }
+    end
+  end
+
+  def get_rotation_status
+    still_processing?
+    render json: { message: @status_message }
+  end
+
   private
 
   def load_encrypted_string
@@ -33,5 +48,17 @@ class EncryptedStringsController < ApplicationController
 
   def encrypted_string_params
     params.require(:encrypted_string).permit(:value)
+  end
+
+  def still_processing?
+    processing = false
+    @status_message = if processing = Sidekiq::ScheduledSet.new.size > 0
+                        "Key rotation has been queued"
+                      elsif processing = Sidekiq::Workers.new.size > 0
+                        "Key rotation is in progress"
+                      else
+                        "No key rotation queued or in progress"
+                      end
+    processing
   end
 end

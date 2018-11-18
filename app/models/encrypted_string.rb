@@ -3,7 +3,7 @@ class EncryptedString < ActiveRecord::Base
 
   attr_encrypted :value,
                  mode: :per_attribute_iv_and_salt,
-                 key: :really_long_encryption_thing_that_probably_shoud_be_renamed
+                 key: :encrypted_key
 
   validates :token, presence: true, uniqueness: true
   validates :data_encrypting_key, presence: true
@@ -11,17 +11,20 @@ class EncryptedString < ActiveRecord::Base
 
   before_validation :set_token, :set_data_encrypting_key
 
-  def really_long_encryption_thing_that_probably_shoud_be_renamed
-    self.data_encrypting_key ||= DataEncryptingKey.primary
-    data_encrypting_key.encrypted_key
+  def encrypted_key
+    set_data_encrypting_key.key
+  end
+
+  def rotate_key(old_value)
+    p old_value
+    p self.value
+    self.value = old_value
+    self.encrypted_value = nil
+    self.data_encrypting_key = DataEncryptingKey.primary
+    p self
   end
 
   private
-
-  def encryption_key
-    self.data_encrypting_key ||= DataEncryptingKey.primary
-    data_encrypting_key.key
-  end
 
   def set_token
     begin
@@ -32,4 +35,5 @@ class EncryptedString < ActiveRecord::Base
   def set_data_encrypting_key
     self.data_encrypting_key ||= DataEncryptingKey.primary
   end
+
 end
